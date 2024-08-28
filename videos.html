@@ -14,7 +14,7 @@
     <script>
         async function fetchVideos() {
             try {
-                const response = await fetch('/api/videos', {
+                const response = await fetch('https://old-lake-6dd0.hp5ccjvs6t.workers.dev/api/videos', {  // Updated URL
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json'
@@ -22,7 +22,7 @@
                 });
 
                 if (!response.ok) {
-                    window.location.href = '/login.html'; // Redirect to login if not authenticated
+                    window.location.href = 'https://site-50x.pages.dev/login.html'; // Redirect to login if not authenticated
                     return;
                 }
 
@@ -44,7 +44,7 @@
 
         function logout() {
             document.cookie = 'session_token=; Max-Age=0; path=/;'; // Clear the cookie
-            window.location.href = '/login.html'; // Redirect to login
+            window.location.href = 'https://site-50x.pages.dev/login.html'; // Redirect to login
         }
 
         fetchVideos(); // Fetch videos on page load
