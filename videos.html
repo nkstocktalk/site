@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Videos</title>
+</head>
+<body>
+    <h2>Available Videos</h2>
+    <button onclick="logout()">Logout</button>
+    <div id="video-list"></div>
+
+    <script>
+        async function fetchVideos() {
+            try {
+                const response = await fetch('/api/videos', {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                if (!response.ok) {
+                    window.location.href = '/login.html'; // Redirect to login if not authenticated
+                    return;
+                }
+
+                const videos = await response.json();
+                const videoList = document.getElementById('video-list');
+
+                videos.forEach(video => {
+                    const videoContainer = document.createElement('div');
+                    videoContainer.innerHTML = `
+                        <h3>${video.name}</h3>
+                        <iframe src="${video.url}" width="640" height="360" frameborder="0" allowfullscreen></iframe>
+                    `;
+                    videoList.appendChild(videoContainer);
+                });
+            } catch (error) {
+                console.error('Error fetching videos:', error);
+            }
+        }
+
+        function logout() {
+            document.cookie = 'session_token=; Max-Age=0; path=/;'; // Clear the cookie
+            window.location.href = '/login.html'; // Redirect to login
+        }
+
+        fetchVideos(); // Fetch videos on page load
+    </script>
+</body>
+</html>
